@@ -118,14 +118,14 @@ h2 {
     font-weight: bold;
 }
 
-.shoes-category {
+.product-category {
     display: flex;
     justify-content: space-between;
     gap: 15px;
 }
 
-.shoe-card {
-    width: 23%;
+.product-card {
+    width: 90%;
     background: #FFF;
     padding: 15px;
     border-radius: 10px;
@@ -135,7 +135,7 @@ h2 {
     transition: transform 0.3s ease-in-out;
 }
 
-.shoe-card img {
+.product-card img {
     width: 100%;
     height: auto;
     border-radius: 5px;
@@ -143,14 +143,15 @@ h2 {
 
 .price {
     font-size: 18px;
+    font-weight: 600;
     margin: 10px 0;
 }
 
-.shoes-name {
+.product-name {
     height: 50px;
 }
 
-.shoes-name p {
+.product-name p {
     font-size: 14px;
     color: #333;
     margin-bottom: 15px;
@@ -164,13 +165,13 @@ h2 {
 
 .details-link {
     display: inline-block;
-    padding: 8px 25px;
+    padding: 9px 36px;
     background: #FFF;
     border: 1px solid #000;
     border-radius: 5px;
     text-decoration: none;
     color: #000;
-    font-size: 14px;
+    font-size: 15px;
     text-align: center;
     transition: background 0.3s ease, color 0.3s ease;
 }
