@@ -1,0 +1,52 @@
+.admin-catalog {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.admin-table-wrapper {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-top: 30px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.admin-table thead {
+    background: #e5e5e5;
+    font-weight: bold;
+}
+
+.product-thumb {
+    width: 60px;
+    height: auto;
+}
+
+.admin-edit {
+    color: #EF0D22;
+    text-decoration: none;
+}
+
+.admin-delete {
+    color: #EF0D22;
+    text-decoration: none;
+}
+
+.admin-edit:hover,
+.admin-delete:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
