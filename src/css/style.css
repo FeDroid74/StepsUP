@@ -4,6 +4,7 @@
 @import url('main.css');
 @import url('catalog.css');
 @import url('info.css');
-@import url('modal.css');
+@import url('auth-modal.css');
+@import url('edit-modal.css');
 @import url('account.css');
 @import url('admin.css');

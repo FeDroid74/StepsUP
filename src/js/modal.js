@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const regModal = document.getElementById("registrationModal");
     const loginModal = document.getElementById("loginModal");
+    const editModal = document.getElementById("editProductModal");
 
-    if (!regModal || !loginModal) return;
-
-    // Маска для номера телефона
+    // Маска телефона
     let inputPhone = document.getElementById("phone");
     if (inputPhone) {
         inputPhone.addEventListener("input", () => phoneMask(inputPhone));
@@ -25,14 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
         inputEl.setSelectionRange(n ? n + 1 : 18, n ? n + 1 : 18);
     }
 
-    // Регистрация по кнопке (по ID)
+    // Регистрация
     document.getElementById("registerButton")?.addEventListener("click", function () {
         const registerForm = document.getElementById("registerForm");
 
         if (registerForm) {
             const phoneField = registerForm.querySelector("input[name='phone']");
             if (phoneField) {
-                phoneField.value = phoneField.value.replace(/\D+/g, ""); // Удаление всех символов, кроме цифр
+                phoneField.value = phoneField.value.replace(/\D+/g, "");
             }
 
             const formData = new FormData(registerForm);
@@ -45,8 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.trim() === "success") {
                     alert("Регистрация прошла успешно!");
-                    regModal.style.display = "none";
-                    loginModal.style.display = "flex";
+                    if (regModal) regModal.style.display = "none";
+                    if (loginModal) loginModal.style.display = "flex";
                 } else {
                     alert(data);
                 }
@@ -54,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Авторизация по кнопке (по ID)
+    // Авторизация
     document.getElementById("loginButton")?.addEventListener("click", function () {
         const loginForm = document.getElementById("loginForm");
 
@@ -67,9 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(response => response.text())
             .then(data => {
-                if (data.trim() === "success") {
-                    alert("Вход выполнен успешно!");
-                    window.location.reload();
+                if (data.trim().endsWith(".php")) {
+                    window.location.href = data.trim();
                 } else {
                     alert(data);
                 }
@@ -77,36 +75,46 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Открытие авторизации по иконке
+    // Открытие окна авторизации
     document.querySelector(".open-login-modal")?.addEventListener("click", (e) => {
         e.preventDefault();
-        loginModal.style.display = "flex";
+        if (loginModal) loginModal.style.display = "flex";
     });
 
-    // Закрытие окон по крестику
+    // Открытие окна редактирования товара
+    document.querySelectorAll(".admin-edit")?.forEach(editBtn => {
+        editBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (editModal) editModal.style.display = "flex";
+        });
+    });
+
+    // Закрытие всех окон по крестику
     document.querySelectorAll(".close")?.forEach(closeBtn => {
         closeBtn.addEventListener("click", () => {
-            regModal.style.display = "none";
-            loginModal.style.display = "none";
+            if (regModal) regModal.style.display = "none";
+            if (loginModal) loginModal.style.display = "none";
+            if (editModal) editModal.style.display = "none";
         });
     });
 
     // Переключение между окнами
     document.querySelector(".switch-to-login")?.addEventListener("click", (e) => {
         e.preventDefault();
-        regModal.style.display = "none";
-        loginModal.style.display = "flex";
+        if (regModal) regModal.style.display = "none";
+        if (loginModal) loginModal.style.display = "flex";
     });
 
     document.querySelector(".switch-to-register")?.addEventListener("click", (e) => {
         e.preventDefault();
-        loginModal.style.display = "none";
-        regModal.style.display = "flex";
+        if (loginModal) loginModal.style.display = "none";
+        if (regModal) regModal.style.display = "flex";
     });
 
-    // Закрытие окна по клику вне области контента
+    // Закрытие окна по клику вне контента
     window.addEventListener("click", (event) => {
         if (event.target === regModal) regModal.style.display = "none";
         if (event.target === loginModal) loginModal.style.display = "none";
+        if (event.target === editModal) editModal.style.display = "none";
     });
 });

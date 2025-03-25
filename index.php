@@ -49,44 +49,52 @@ require './server/products.php';
                     <h2>Мужская обувь →</h2>
                     <div class="product-category">
                         <?php
+                        $count = 0;
                         foreach ($products as $product) {
-                            if ($product["category"] === "men") { ?>
-                                <div class="product-card">
-                                    <?php if (!empty($product["label"])) { ?>
-                                        <span class="label"><?= htmlspecialchars($product["label"]) ?></span>
-                                    <?php } ?>
-                                    <img src="<?= htmlspecialchars($product["image"]) ?>" alt="<?= htmlspecialchars($product["name"]) ?>">
-                                    <p class="price"><?= number_format($product["price"], 2, '.', ' ') ?> руб.</p>
-                                    <div class="product-name">
-                                        <p><?= htmlspecialchars($product["description"]) ?></p>
-                                    </div>
-                                    <div class="details-container">
-                                        <a href="#" class="details-link">Подробнее</a>
-                                    </div>
+                            if ($product["category"] === "men") {
+                                if ($count >= 4) break;
+                                $count++;
+                        ?>
+                            <div class="product-card">
+                                <?php if (!empty($product["label"])) { ?>
+                                    <span class="label"><?= htmlspecialchars($product["label"]) ?></span>
+                                <?php } ?>
+                                <img src="<?= htmlspecialchars($product["image"]) ?>" alt="<?= htmlspecialchars($product["name"]) ?>">
+                                <p class="price"><?= number_format($product["price"], 2, '.', ' ') ?> руб.</p>
+                                <div class="product-name">
+                                    <p><?= htmlspecialchars($product["description"]) ?></p>
                                 </div>
-                            <?php }
+                                <div class="details-container">
+                                    <a href="#" class="details-link">Подробнее</a>
+                                </div>
+                            </div>
+                        <?php }
                         } ?>
                     </div>
 
                     <h2>Женская обувь →</h2>
                     <div class="product-category">
                         <?php
+                        $count = 0;
                         foreach ($products as $product) {
-                            if ($product["category"] === "women") { ?>
-                                <div class="product-card">
-                                    <?php if (!empty($product["label"])) { ?>
-                                        <span class="label"><?= htmlspecialchars($product["label"]) ?></span>
-                                    <?php } ?>
-                                    <img src="<?= htmlspecialchars($product["image"]) ?>" alt="<?= htmlspecialchars($product["name"]) ?>">
-                                    <p class="price"><?= number_format($product["price"], 2, '.', ' ') ?> руб.</p>
-                                    <div class="product-name">
-                                        <p><?= htmlspecialchars($product["description"]) ?></p>
-                                    </div>
-                                    <div class="details-container">
-                                        <a href="#" class="details-link">Подробнее</a>
-                                    </div>
+                            if ($product["category"] === "women") {
+                                if ($count >= 4) break;
+                                $count++;
+                        ?>
+                            <div class="product-card">
+                                <?php if (!empty($product["label"])) { ?>
+                                    <span class="label"><?= htmlspecialchars($product["label"]) ?></span>
+                                <?php } ?>
+                                <img src="<?= htmlspecialchars($product["image"]) ?>" alt="<?= htmlspecialchars($product["name"]) ?>">
+                                <p class="price"><?= number_format($product["price"], 2, '.', ' ') ?> руб.</p>
+                                <div class="product-name">
+                                    <p><?= htmlspecialchars($product["description"]) ?></p>
                                 </div>
-                            <?php }
+                                <div class="details-container">
+                                    <a href="#" class="details-link">Подробнее</a>
+                                </div>
+                            </div>
+                        <?php }
                         } ?>
                     </div>
                 </div>

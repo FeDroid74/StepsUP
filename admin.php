@@ -51,5 +51,7 @@ require './server/products.php';
         </main>
         <?php include './templates/footer.php'; ?>
     </div>
+    <?php include './templates/edit-product-modal.php'; ?>
 </body>
+<?php include './templates/scripts.php'; ?>
 </html>
