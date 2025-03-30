@@ -21,7 +21,7 @@
 .admin-table td {
     padding: 12px 15px;
     border: 1px solid #ddd;
-    text-align: left;
+    text-align: center;
     vertical-align: middle;
 }
 
@@ -36,17 +36,46 @@
 }
 
 .admin-edit {
-    color: #EF0D22;
+    color: #000;
     text-decoration: none;
+    border: none;
+    background-color: #FFF;
+    font-size: 14px;
+    transition: background 0.3s ease;
 }
 
 .admin-delete {
-    color: #EF0D22;
+    color: #000;
     text-decoration: none;
+    border: none;
+    background-color: #FFF;
+    font-size: 14px;
+    transition: background 0.3s ease;
 }
 
 .admin-edit:hover,
 .admin-delete:hover {
-    text-decoration: underline;
     opacity: 0.8;
+    color: #EF0D22;
+}
+
+.admin-button {
+    display: flex;
+    justify-content: right;
+}
+
+.admin-add {
+    background: #EF0D22;
+    color: #FFF;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-weight: 800;
+    border: none;
+}
+
+.admin-add:hover {
+    background: #c30016;
 }

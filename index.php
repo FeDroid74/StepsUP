@@ -46,7 +46,7 @@ require './server/products.php';
                     </div>
 
                     <!-- Мужская обувь -->
-                    <h2>Мужская обувь →</h2>
+                    <h2>Мужская обувь 🡮</h2>
                     <div class="product-category">
                         <?php
                         $count = 0;
@@ -72,7 +72,7 @@ require './server/products.php';
                         } ?>
                     </div>
 
-                    <h2>Женская обувь →</h2>
+                    <h2>Женская обувь 🡮</h2>
                     <div class="product-category">
                         <?php
                         $count = 0;
@@ -103,5 +103,4 @@ require './server/products.php';
         <?php include './templates/footer.php'; ?>
     </div>
 </body>
-<?php include './templates/scripts.php'; ?>
 </html>

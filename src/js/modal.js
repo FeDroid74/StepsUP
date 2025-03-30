@@ -75,10 +75,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Открытие окна авторизации
+    // Кнопка аккаунта: переход по роли
     document.querySelector(".open-login-modal")?.addEventListener("click", (e) => {
         e.preventDefault();
-        if (loginModal) loginModal.style.display = "flex";
+
+        if (window.currentUser?.isLoggedIn) {
+            if (window.currentUser.role === 1) {
+                window.location.href = "admin.php";
+            } else {
+                window.location.href = "account.php";
+            }
+        } else {
+            if (loginModal) loginModal.style.display = "flex";
+        }
     });
 
     // Открытие окна редактирования товара
@@ -89,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Закрытие всех окон по крестику
+    // Закрытие окон по крестику
     document.querySelectorAll(".close")?.forEach(closeBtn => {
         closeBtn.addEventListener("click", () => {
             if (regModal) regModal.style.display = "none";
@@ -98,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Переключение между окнами
+    // Переключение между модальными окнами
     document.querySelector(".switch-to-login")?.addEventListener("click", (e) => {
         e.preventDefault();
         if (regModal) regModal.style.display = "none";
@@ -111,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (regModal) regModal.style.display = "flex";
     });
 
-    // Закрытие окна по клику вне контента
+    // Закрытие по клику вне окна
     window.addEventListener("click", (event) => {
         if (event.target === regModal) regModal.style.display = "none";
         if (event.target === loginModal) loginModal.style.display = "none";

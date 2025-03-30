@@ -83,3 +83,10 @@ header {
     gap: 38px;
     justify-content: center;
 }
+
+
+.logout {
+    width: 22px !important; 
+    height: 22px !important;
+    margin-left: -6px;
+}
