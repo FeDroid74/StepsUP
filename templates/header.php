@@ -25,21 +25,21 @@ session_start();
                     <li><a href="contacts.php">Контакты</a></li>
                 </ul>
             </div>
-            <div class="logo"><a href="index.php"><img src="./img/logo.svg" alt="logo"></a></div>
+            <div class="logo"><a href="index.php"><img src="/img/logo.svg" alt="logo"></a></div>
             <div class="header-icons">
                 <ul>
-                    <li><a href="#"><img src="./img/search-icon.svg" alt="Поиск"></a></li>
+                    <li><a href="#"><img src="/img/search-icon.svg" alt="Поиск"></a></li>
                     <li>
-                        <a href="#" class="open-login-modal"><img src="./img/account-icon.svg" alt="Личный кабинет"></a>
+                        <a href="#" class="open-login-modal"><img src="/img/account-icon.svg" alt="Личный кабинет"></a>
                     </li>
-                    <li><a href="#"><img src="./img/liked-icon.svg" alt="Понравившиеся товары"></a></li>
-                    <li><a href="#"><img src="./img/cart-icon.svg" alt="Корзина"></a></li>
+                    <li><a href="#"><img src="/img/liked-icon.svg" alt="Понравившиеся товары"></a></li>
+                    <li><a href="#"><img src="/img/cart-icon.svg" alt="Корзина"></a></li>
 
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li>
-                            <form id="logout-form" action="./server/logout.php" method="POST" style="display:inline;">
+                            <form id="logout-form" action="/server/logout.php" method="POST" style="display:inline;">
                                 <button type="submit" class="logout-button" style="background:none;border:none;cursor:pointer;">
-                                    <img class="logout" src="./img/log-out.svg" alt="Выход" title="Выйти">
+                                    <img class="logout" src="/img/log-out.svg" alt="Выход" title="Выйти">
                                 </button>
                             </form>
                         </li>
