@@ -3,8 +3,7 @@
         <span class="close">&times;</span>
         <h2 class="modal-title">Регистрация</h2>
         <form id="registerForm" class="modal-form">
-            <input type="text" name="first_name" placeholder="Имя" required>
-            <input type="text" name="last_name" placeholder="Фамилия" required>
+            <input type="text" name="full_name" placeholder="ФИО">
             <input type="email" name="email" placeholder="Электронная почта" required>
             <input id="phone" type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
             <input type="password" name="password" placeholder="Пароль" required>

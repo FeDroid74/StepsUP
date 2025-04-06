@@ -1,3 +1,58 @@
+<?php
+session_start();
+require $_SERVER['DOCUMENT_ROOT'] . '/server/db.php';
+
+// Получаем содержимое корзины
+$cartItems = [];
+$total = 0;
+
+if (!empty($_SESSION['cart'])) {
+    $skus = array_keys($_SESSION['cart']);
+    $placeholders = implode(',', array_fill(0, count($skus), '?'));
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE sku IN ($placeholders)");
+    $stmt->execute($skus);
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($products as $product) {
+        $quantity = $_SESSION['cart'][$product['sku']]['quantity'];
+        $subtotal = $product['price'] * $quantity;
+        $total += $subtotal;
+
+        $cartItems[] = [
+            'name' => $product['name'],
+            'image' => $product['image'],
+            'price' => $product['price'],
+            'quantity' => $quantity,
+            'sku' => $product['sku'],
+        ];
+    }
+}
+
+// Получение данных авторизованного пользователя
+$userData = [
+    'email' => '',
+    'fullname' => '',
+    'phone' => '',
+    'address' => ''
+];
+
+if (!empty($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("SELECT email, full_name, phone, address FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        $userData = [
+            'email' => htmlspecialchars($user['email']),
+            'fullname' => htmlspecialchars($user['full_name']),
+            'phone' => htmlspecialchars($user['phone'] ?? ''),
+            'address' => htmlspecialchars($user['address'] ?? '')
+        ];
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,16 +70,21 @@
                 <h2>Оформите заказ</h2>
                 <form action="/server/place_order.php" method="POST">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    <input type="email" id="email" name="email" placeholder="you@example.com"
+                        value="<?= $userData['email'] ?>" required>
 
                     <label for="fullname">ФИО</label>
-                    <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович" required>
+                    <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович"
+                        value="<?= $userData['fullname'] ?>" required>
+
 
                     <label for="phone">Телефон</label>
-                    <input type="tel" id="phone" name="phone" placeholder="+7 900 000 00 00" required>
+                    <input type="tel" id="phone" name="phone" placeholder="+7 900 000 00 00"
+                        value="<?= $userData['phone'] ?>" required>
 
-                    <label for="city">Город</label>
-                    <input type="text" id="city" name="city" placeholder="г. Москва" required>
+                    <label for="address">Адрес</label>
+                    <input type="text" id="address" name="address" placeholder="г. Москва"
+                        value="<?= $userData['address'] ?>" required>
 
                     <label>
                         <input type="checkbox" name="international"> За границу
@@ -47,28 +107,33 @@
             </section>
 
             <aside class="checkout-summary">
-                <h2>В корзине 1 товар</h2>
+                <h2>В корзине <?= count($cartItems) ?> товар(ов)</h2>
 
                 <div class="price-breakdown">
-                    <p>Стоимость товаров <span>15 000 ₽</span></p>
+                    <p>Стоимость товаров <span><?= number_format($total, 0, '', ' ') ?> ₽</span></p>
                     <p>Доставка <span>0 ₽</span></p>
-                    <p class="total">Итого <span>15 000 ₽</span></p>
+                    <p class="total">Итого <span><?= number_format($total, 0, '', ' ') ?> ₽</span></p>
                 </div>
 
-                <div class="cart-item">
-                    <img src="/img/adidas.png" alt="Товар">
-                    <div>
-                        <p class="cart-price">15 000 ₽</p>
-                        <p>Кроссовки adidas Originals SL 72 RS</p>
-                        <div class="cart-options">
-                            <select>
-                                <option>41 1/3 EUR</option>
-                                <option>42 EUR</option>
-                            </select>
-                            <input type="number" value="1" min="1">
+                <?php if (!empty($cartItems)): ?>
+                    <?php foreach ($cartItems as $item): ?>
+                        <div class="cart-item">
+                            <img src="<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+                            <div>
+                                <p class="cart-price"><?= number_format($item['price'], 0, '', ' ') ?> ₽</p>
+                                <p><?= htmlspecialchars($item['name']) ?></p>
+                                <div class="cart-options">
+                                    <select>
+                                        <option selected>41 1/3 EUR</option>
+                                    </select>
+                                    <input type="number" value="<?= $item['quantity'] ?>" min="1" readonly>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="cart-empty">Корзина пуста</p>
+                <?php endif; ?>
             </aside>
         </div>
     </main>

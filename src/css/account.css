@@ -7,7 +7,7 @@
 
 /* Левое меню */
 .account-sidebar {
-    width: 250px;
+    width: 265px;
     border-right: 1px solid #ddd;
     padding-right: 20px;
 }
@@ -60,4 +60,50 @@
     font-size: 28px;
     font-weight: bold;
     margin-top: 20px;
+}
+
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-card {
+    border: 1px solid #eee;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.user-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    gap: 16px;
+}
+
+.user-form input,
+.user-form textarea {
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.user-form textarea {
+    resize: vertical;
+}
+
+.account-menu .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    stroke: #000; /* базовый цвет */
+    transition: stroke 0.3s ease;
+}
+
+.account-menu .icon-active {
+    stroke: #EF0D22; /* активный красный */
 }

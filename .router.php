@@ -1,22 +1,28 @@
 <?php
-$request = $_SERVER["REQUEST_URI"];
+// .router.php
 
-if (preg_match('#^/product/(.+)$#', $request, $matches)) {
-    $_GET['sku'] = $matches[1];
-    include 'product.php';
-    exit;
+$uri = urldecode(
+    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+);
+
+$path = __DIR__ . $uri;
+
+if ($uri !== '/' && file_exists($path) && !is_dir($path)) {
+    return false; // Отдаёт файл напрямую (например .css, .js, .php и т.д.)
 }
 
-if ($request === '/' || $request === '/index.php') {
-    include 'index.php';
-    exit;
+// Если файл с расширением .php существует — подключаем
+if (preg_match('/\.php$/', $uri) && file_exists(__DIR__ . $uri)) {
+    include __DIR__ . $uri;
+    return true;
 }
 
-// Прочие реальные файлы (css, js, img) — пусть обрабатываются как есть
-$file = $_SERVER['DOCUMENT_ROOT'] . $request;
-if (file_exists($file)) {
-    return false;
+// Если путь не заканчивается на .php, но есть файл .php с таким именем
+$phpPath = $path . '.php';
+if (file_exists($phpPath)) {
+    include $phpPath;
+    return true;
 }
 
-// Всё остальное — 404
-include '404.php';
+// Фолбэк — если ничего не найдено, пробуем index.php или 404
+include __DIR__ . '/404-page.php';
