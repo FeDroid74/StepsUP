@@ -45,13 +45,11 @@ if (!$product) {
                         <h1><?= htmlspecialchars($product['name']) ?></h1>
                         <p class="product-sku">Артикул: <?= $product['sku'] ?></p>
                         <p class="product-price"><?= number_format($product['price'], 0, '', ' ') ?> ₽</p>
-                        <p><strong class="product-option"><?= $product['stock'] > 0 ? 'В наличии' : 'Нет в наличии' ?></strong></p>
+                        <p class="product-option"><strong class="product-type"><?= $product['stock'] > 0 ? 'В наличии' : 'Нет в наличии' ?></strong></p>
                         <p>Бренд: <?= htmlspecialchars($product['brand']) ?></p>
 
                         <div class="product-actions">
-                            <form method="post" action="#">
-                                <button class="add-to-cart" type="submit">Добавить в корзину</button>
-                            </form>
+                            <button class="add-to-cart" type="button" data-sku="<?= $product['sku'] ?>">Добавить в корзину</button>
                             <button class="add-to-wishlist" type="button" title="Добавить в желаемое">
                                 <img src="/img/liked-icon.svg" alt="Желаемое">
                             </button>
@@ -59,10 +57,10 @@ if (!$product) {
                     </div>
                 </div>
 
-                <div class="product-description">
+                <!-- <div class="product-description">
                     <h2>Описание</h2>
                     <p><?= nl2br(htmlspecialchars($product['description'])) ?></p>
-                </div>
+                </div> -->
             </div>
         </section>
     </main>

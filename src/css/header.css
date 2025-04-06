@@ -67,6 +67,23 @@ header {
     height: 24px;
 }
 
+.open-cart {
+    border: none;
+    background-color: #FFF;
+    cursor: pointer;
+}
+
+.cart-count {
+    background-color: #EF0D22;
+    color: #FFF;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    position: relative;
+    top: -15px;
+    right: 15px;
+}
+
 .header-categories {
     width: 100%;
     text-align: center;

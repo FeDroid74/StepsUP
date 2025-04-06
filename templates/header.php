@@ -8,6 +8,15 @@ session_start();
 </script>
 <?php endif; ?>
 
+<?php
+$cartCount = 0;
+if (isset($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $item) {
+        $cartCount += $item['quantity'];
+    }
+}
+?>
+
 <script>
     window.currentUser = {
         isLoggedIn: <?= isset($_SESSION['user_id']) ? 'true' : 'false' ?>,
@@ -33,7 +42,17 @@ session_start();
                         <a href="#" class="open-login-modal"><img src="/img/account-icon.svg" alt="Личный кабинет"></a>
                     </li>
                     <li><a href="#"><img src="/img/liked-icon.svg" alt="Понравившиеся товары"></a></li>
-                    <li><a href="#"><img src="/img/cart-icon.svg" alt="Корзина"></a></li>
+                    <li>
+                        <button class="open-cart" type="button" title="Корзина">
+                            <img src="/img/cart-icon.svg" alt="Корзина">
+                            <?php if ($cartCount > 0): ?>
+                                <span class="cart-count"><?= $cartCount ?></span>
+                            <?php else: ?>
+                                <span class="cart-count" style="display: none;">0</span>
+                            <?php endif; ?>
+                        </button>
+                    </li>
+
 
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li>
@@ -63,4 +82,5 @@ session_start();
 
 <?php include 'register-modal.php'; ?>
 <?php include 'login-modal.php'; ?>
+<?php include 'cart-modal.php'; ?>
 <?php include './templates/scripts.php'; ?>
