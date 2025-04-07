@@ -1,28 +1,30 @@
 <?php
-// .router.php
+$request = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
-$uri = urldecode(
-    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-);
-
-$path = __DIR__ . $uri;
-
-if ($uri !== '/' && file_exists($path) && !is_dir($path)) {
-    return false; // Отдаёт файл напрямую (например .css, .js, .php и т.д.)
+// Обработка роутинга вида /product/sku0001
+if (preg_match('#^/product/(.+)$#', $request, $matches)) {
+    $_GET['sku'] = $matches[1];
+    include 'product.php';
+    exit;
 }
 
-// Если файл с расширением .php существует — подключаем
-if (preg_match('/\.php$/', $uri) && file_exists(__DIR__ . $uri)) {
-    include __DIR__ . $uri;
-    return true;
+// Обработка прямых PHP-файлов (admin.php, catalog.php и т.д.)
+$fullPath = __DIR__ . $request;
+if (file_exists($fullPath) && pathinfo($fullPath, PATHINFO_EXTENSION) === 'php') {
+    include $fullPath;
+    exit;
 }
 
-// Если путь не заканчивается на .php, но есть файл .php с таким именем
-$phpPath = $path . '.php';
-if (file_exists($phpPath)) {
-    include $phpPath;
-    return true;
+// Раздача статики (CSS, JS, изображения и т.д.)
+if (file_exists($fullPath)) {
+    return false;
 }
 
-// Фолбэк — если ничего не найдено, пробуем index.php или 404
-include __DIR__ . '/404-page.php';
+// Фолбэк: index или 404
+if ($request === '/' || $request === '/index.php') {
+    include 'index.php';
+    exit;
+}
+
+include '404.php';
+?>

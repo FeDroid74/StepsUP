@@ -4,7 +4,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/server/db.php';
 $sku = $_GET['sku'] ?? null;
 
 if (!$sku) {
-    header("Location: /404-page.php");
+    header("Location: /404.php");
     exit;
 }
 
@@ -13,7 +13,7 @@ $stmt->execute([$sku]);
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$product) {
-    header("Location: /404-page.php");
+    header("Location: /404.php");
     exit;
 }
 ?>

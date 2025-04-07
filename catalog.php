@@ -89,7 +89,7 @@ require './server/products.php';
                                             <p><?= htmlspecialchars($product["description"]) ?></p>
                                         </div>
                                         <div class="details-container">
-                                            <a href="#" class="details-link">Подробнее</a>
+                                            <a href="/product/<?= urlencode($product['sku']) ?>" class="details-link">Подробнее</a>
                                             <button class="cart-btn"><img src="./img/white-cart-icon.svg"></button>
                                         </div>
                                     </div>

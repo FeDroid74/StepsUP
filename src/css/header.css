@@ -82,6 +82,7 @@ header {
     position: relative;
     top: -15px;
     right: 15px;
+    margin-right: -22.5px;
 }
 
 .header-categories {

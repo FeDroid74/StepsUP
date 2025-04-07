@@ -10,6 +10,7 @@ require './server/products.php';
     <title>StepsUP</title>
     <link rel="stylesheet" href="./src/css/style.css">
     <link rel="stylesheet" href="./src/css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body>
     <div class="wrapper">
@@ -17,9 +18,17 @@ require './server/products.php';
         <main class="content">
             <section class="category-section">
                 <div class="container">
-                    <div class="main-image">
-                        <img src="./img/main-sneakers.jpg" alt="Основное изображение кроссовок">
+                    <!-- Слайдер -->
+                    <div class="custom-slider">
+                        <div class="slider-track">
+                            <div class="slide"><img src="./img/main-sneakers.jpg" alt="Слайд 1"></div>
+                            <div class="slide"><img src="./img/slide1.jpg" alt="Слайд 2"></div>
+                            <div class="slide"><img src="./img/slide2.jpg" alt="Слайд 3"></div>
+                            <div class="slide"><img src="./img/slide3.jpg" alt="Слайд 4"></div>
+                        </div>
+                        <div class="slider-dots"></div>
                     </div>
+
                     <div class="sneakers-categories">
                         <div class="category-item">
                             <div class="image-wrapper"><img src="./img/mens-sneakers.jpg" alt="Мужские кроссовки"></div>
@@ -51,7 +60,7 @@ require './server/products.php';
                         <?php
                         $count = 0;
                         foreach ($products as $product) {
-                            if ($product["category"] === "men") {
+                            if ($product["category"] == 0) {
                                 if ($count >= 4) break;
                                 $count++;
                         ?>
@@ -65,7 +74,7 @@ require './server/products.php';
                                     <p><?= htmlspecialchars($product["description"]) ?></p>
                                 </div>
                                 <div class="details-container">
-                                    <a href="#" class="details-link">Подробнее</a>
+                                    <a href="/product/<?= urlencode($product['sku']) ?>" class="details-link">Подробнее</a>
                                 </div>
                             </div>
                         <?php }
@@ -77,7 +86,7 @@ require './server/products.php';
                         <?php
                         $count = 0;
                         foreach ($products as $product) {
-                            if ($product["category"] === "women") {
+                            if ($product["category"] == 1) {
                                 if ($count >= 4) break;
                                 $count++;
                         ?>
@@ -91,7 +100,7 @@ require './server/products.php';
                                     <p><?= htmlspecialchars($product["description"]) ?></p>
                                 </div>
                                 <div class="details-container">
-                                    <a href="#" class="details-link">Подробнее</a>
+                                    <a href="/product/<?= urlencode($product['sku']) ?>" class="details-link">Подробнее</a>
                                 </div>
                             </div>
                         <?php }
