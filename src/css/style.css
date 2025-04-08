@@ -5,9 +5,10 @@
 @import url('catalog.css');
 @import url('info.css');
 @import url('auth-modal.css');
-@import url('edit-modal.css');
+@import url('product-modal.css');
 @import url('account.css');
 @import url('admin.css');
 @import url('product.css');
 @import url('checkout.css');
 @import url('cart.css');
+@import url('search.css');

@@ -58,22 +58,22 @@
     line-height: 1.6;
 }
 
-.modal-button {
+.auth-button {
     width: 100%;
     background: #EF0D22;
-    color: white;
+    color: #FFF;
     border: none;
     padding: 12px;
     margin-top: 10px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 400;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.modal-button:hover {
-    background: #b50000;
+.auth-button:hover {
+    background: #c90018;
 }
 
 .modal-footer {

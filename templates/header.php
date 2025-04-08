@@ -37,11 +37,10 @@ if (isset($_SESSION['cart'])) {
             <div class="logo"><a href="/index.php"><img src="/img/logo.svg" alt="logo"></a></div>
             <div class="header-icons">
                 <ul>
-                    <li><a href="#"><img src="/img/search-icon.svg" alt="Поиск"></a></li>
+                    <li><a href="#" id="openSearchModal"><img src="/img/search-icon.svg" alt="Поиск"></a></li>
                     <li>
                         <a href="#" class="open-login-modal"><img src="/img/account-icon.svg" alt="Личный кабинет"></a>
                     </li>
-                    <li><a href="#"><img src="/img/liked-icon.svg" alt="Понравившиеся товары"></a></li>
                     <li>
                         <button class="open-cart" type="button" title="Корзина">
                             <img src="/img/cart-icon.svg" alt="Корзина">
@@ -71,8 +70,8 @@ if (isset($_SESSION['cart'])) {
             <ul>
                 <li><a href="/catalog.php?category=Новинки">Новинки</a></li>
                 <li><a href="/catalog.php?category=Бренд">Бренды</a></li>
-                <li><a href="/catalog.php?category=Мужской">Мужские</a></li>
-                <li><a href="/catalog.php?category=Женский">Женские</a></li>
+                <li><a href="/catalog.php?gender=1">Мужские</a></li>
+                <li><a href="/catalog.php?gender=0">Женские</a></li>
                 <li><a href="/catalog.php?category=Детская">Детские</a></li>
                 <li><a href="/catalog.php?category=Распродажа">Распродажа</a></li>
             </ul>
@@ -83,4 +82,5 @@ if (isset($_SESSION['cart'])) {
 <?php include 'register-modal.php'; ?>
 <?php include 'login-modal.php'; ?>
 <?php include 'cart-modal.php'; ?>
+<?php include 'search-modal.php'; ?>
 <?php include './templates/scripts.php'; ?>

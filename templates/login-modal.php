@@ -5,7 +5,7 @@
         <form id="loginForm" class="modal-form">
             <input type="email" name="email" placeholder="Электронная почта" required>
             <input type="password" name="password" placeholder="Пароль" required>
-            <button type="button" id="loginButton" class="modal-button">Войти</button>
+            <button type="button" id="loginButton" class="auth-button">Войти</button>
         </form>
         <p class="modal-text">
             У вас нет аккаунта? 

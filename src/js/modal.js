@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const regModal = document.getElementById("registrationModal");
     const loginModal = document.getElementById("loginModal");
     const editModal = document.getElementById("editProductModal");
+    const searchModal = document.getElementById("searchModal");
+    const openSearchBtn = document.getElementById("openSearchModal");
 
     // Маска телефона
     let inputPhone = document.getElementById("phone");
@@ -98,6 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // Открытие модального окна поиска
+    openSearchBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (searchModal) searchModal.style.display = "block";
+    });
+
     // Закрытие окон по крестику
     document.querySelectorAll(".close")?.forEach(closeBtn => {
         closeBtn.addEventListener("click", () => {
@@ -125,5 +133,18 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.target === regModal) regModal.style.display = "none";
         if (event.target === loginModal) loginModal.style.display = "none";
         if (event.target === editModal) editModal.style.display = "none";
+        if (event.target === searchModal) searchModal.style.display = "none";
+    });
+
+    // Закрытие по кнопке
+    document.addEventListener("click", (e) => {
+        if (
+            searchModal.style.display === "block" &&
+            !searchModal.contains(e.target) &&
+            e.target !== openSearchBtn &&
+            !openSearchBtn.contains(e.target)
+        ) {
+            searchModal.style.display = "none";
+        }
     });
 });

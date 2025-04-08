@@ -71,6 +71,7 @@ header {
     border: none;
     background-color: #FFF;
     cursor: pointer;
+    padding: 0;
 }
 
 .cart-count {

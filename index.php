@@ -59,7 +59,7 @@ require './server/products.php';
                         <?php
                         $count = 0;
                         foreach ($products as $product) {
-                            if ($product["category"] == 0) {
+                            if ((int)$product["gender"] === 1) {
                                 if ($count >= 4) break;
                                 $count++;
                         ?>
@@ -85,7 +85,7 @@ require './server/products.php';
                         <?php
                         $count = 0;
                         foreach ($products as $product) {
-                            if ($product["category"] == 1) {
+                            if ((int)$product["gender"] === 0) {
                                 if ($count >= 4) break;
                                 $count++;
                         ?>

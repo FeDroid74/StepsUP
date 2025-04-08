@@ -3,11 +3,13 @@ require './server/products.php';
 
 // Получаем параметры фильтрации
 $order = $_GET['order'] ?? 'new';
+$queryText = $_GET['query'] ?? null;
 $priceMin = (isset($_GET['price_min']) && $_GET['price_min'] !== '') ? (float)$_GET['price_min'] : null;
 $priceMax = (isset($_GET['price_max']) && $_GET['price_max'] !== '') ? (float)$_GET['price_max'] : null;
 $category = $_GET['category'] ?? null;
 $selectedBrands = $_GET['brands'] ?? [];
 $size = $_GET['size'] ?? null;
+$gender = $_GET['gender'] ?? null;
 
 // Получение всех брендов из базы данных
 $brandStmt = $pdo->query("SELECT DISTINCT brand FROM products ORDER BY brand ASC");
@@ -39,13 +41,25 @@ if (!empty($selectedBrands)) {
     $params = array_merge($params, $selectedBrands);
 }
 
+// Фильтрация по размеру
 if (!empty($size)) {
     $query .= " AND size = ?";
     $params[] = $size;
 }
 
-// Сортировка
-$query .= " ORDER BY created_at " . ($order === 'old' ? "ASC" : "DESC");
+// Фильтрация по полу
+if ($gender !== null && $gender !== '') {
+    $query .= " AND gender = ?";
+    $params[] = $gender;
+}
+
+// Поиск по имени и описанию
+if (!empty($queryText)) {
+    $query .= " AND (name LIKE ? OR description LIKE ?)";
+    $searchTerm = '%' . $queryText . '%';
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+}
 
 // Получение товаров
 $stmt = $pdo->prepare($query);
@@ -102,11 +116,17 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <h2 class="filter-title">Категория</h2>
                             <select class="filter-select" name="category">
                                 <option value="">Все</option>
-                                <option value="Мужской" <?= $category === 'Мужской' ? 'selected' : '' ?>>Мужская</option>
-                                <option value="Женский" <?= $category === 'Женский' ? 'selected' : '' ?>>Женская</option>
                                 <option value="Бренд" <?= $category === 'Бренд' ? 'selected' : '' ?>>Бренд</option>
                                 <option value="Распродажа" <?= $category === 'Распродажа' ? 'selected' : '' ?>>Распродажа</option>
                                 <option value="Детская" <?= $category === 'Детская' ? 'selected' : '' ?>>Детская</option>
+                            </select>
+
+                             <!-- Пол -->
+                             <h2 class="filter-title">Пол</h2>
+                            <select class="filter-select" name="gender">
+                                <option value="">Все</option>
+                                <option value="1" <?= $gender === '1' ? 'selected' : '' ?>>Мужской</option>
+                                <option value="0" <?= $gender === '0' ? 'selected' : '' ?>>Женский</option>
                             </select>
 
                             <!-- Цена -->
