@@ -34,7 +34,7 @@ if (isset($_SESSION['cart'])) {
                     <li><a href="contacts.php">Контакты</a></li>
                 </ul>
             </div>
-            <div class="logo"><a href="index.php"><img src="/img/logo.svg" alt="logo"></a></div>
+            <div class="logo"><a href="/index.php"><img src="/img/logo.svg" alt="logo"></a></div>
             <div class="header-icons">
                 <ul>
                     <li><a href="#"><img src="/img/search-icon.svg" alt="Поиск"></a></li>
@@ -69,12 +69,12 @@ if (isset($_SESSION['cart'])) {
 
         <nav class="header-categories">
             <ul>
-                <li><a href="#">Новинки</a></li>
-                <li><a href="#">Бренды</a></li>
-                <li><a href="#">Мужские</a></li>
-                <li><a href="#">Женские</a></li>
-                <li><a href="#">Детские</a></li>
-                <li><a href="#">Распродажа</a></li>
+                <li><a href="/catalog.php?category=Новинки">Новинки</a></li>
+                <li><a href="/catalog.php?category=Бренд">Бренды</a></li>
+                <li><a href="/catalog.php?category=Мужской">Мужские</a></li>
+                <li><a href="/catalog.php?category=Женский">Женские</a></li>
+                <li><a href="/catalog.php?category=Детская">Детские</a></li>
+                <li><a href="/catalog.php?category=Распродажа">Распродажа</a></li>
             </ul>
         </nav>
     </div>

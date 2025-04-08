@@ -1,5 +1,56 @@
 <?php
 require './server/products.php';
+
+// Получаем параметры фильтрации
+$order = $_GET['order'] ?? 'new';
+$priceMin = (isset($_GET['price_min']) && $_GET['price_min'] !== '') ? (float)$_GET['price_min'] : null;
+$priceMax = (isset($_GET['price_max']) && $_GET['price_max'] !== '') ? (float)$_GET['price_max'] : null;
+$category = $_GET['category'] ?? null;
+$selectedBrands = $_GET['brands'] ?? [];
+$size = $_GET['size'] ?? null;
+
+// Получение всех брендов из базы данных
+$brandStmt = $pdo->query("SELECT DISTINCT brand FROM products ORDER BY brand ASC");
+$allBrands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
+
+$query = "SELECT * FROM products WHERE 1";
+$params = [];
+
+// Фильтрация по цене
+if ($priceMin !== null) {
+    $query .= " AND price >= ?";
+    $params[] = $priceMin;
+}
+if ($priceMax !== null) {
+    $query .= " AND price <= ?";
+    $params[] = $priceMax;
+}
+
+// Фильтрация по категории
+if (!empty($category)) {
+    $query .= " AND category = ?";
+    $params[] = $category;
+}
+
+// Фильтрация по брендам
+if (!empty($selectedBrands)) {
+    $in = implode(',', array_fill(0, count($selectedBrands), '?'));
+    $query .= " AND brand IN ($in)";
+    $params = array_merge($params, $selectedBrands);
+}
+
+if (!empty($size)) {
+    $query .= " AND size = ?";
+    $params[] = $size;
+}
+
+// Сортировка
+$query .= " ORDER BY created_at " . ($order === 'old' ? "ASC" : "DESC");
+
+// Получение товаров
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -11,96 +62,138 @@ require './server/products.php';
     <link rel="stylesheet" href="./src/css/style.css">
 </head>
 <body>
-    <div class="wrapper">
-        <?php include './templates/header.php'; ?>
-        <main class="content">
-            <section class="catalog">
-                <div class="container">
-                    <div class="breadcrumbs">
-                        <a href="index.php">Главная</a> 
-                        <span>&gt;</span>
-                        <span class="current">Каталог</span>
-                    </div>
+<div class="wrapper">
+    <?php include './templates/header.php'; ?>
+    <main class="content">
+        <section class="catalog">
+            <div class="container">
+                <div class="breadcrumbs">
+                    <a href="index.php">Главная</a>
+                    <span>&gt;</span>
+                    <span class="current">Каталог</span>
+                </div>
 
-                    <div class="sort">
-                        <h1 class="sort-title">ОБУВЬ</h1>
-                        <button class="sort-btn">Дата поступления (сначала новые)</button>
-                    </div>
+                <form method="GET" class="sort-form">
+                    <h1 class="sort-title">КАТАЛОГ</h1>
+                    <button class="sort-btn" type="submit" name="order" value="<?= $order === 'new' ? 'old' : 'new' ?>">
+                        Дата поступления (<?= $order === 'new' ? 'сначала старые' : 'сначала новые' ?>)
+                    </button>
+                </form>
 
-                    <div class="catalog-wrapper">
-                        <!-- Фильтр товаров -->
-                        <aside class="filter">
+                <div class="catalog-wrapper">
+                    <!-- Фильтр товаров -->
+                    <aside class="filter">
+                        <form method="GET">
+                            <!-- Бренды -->
                             <h2 class="filter-title">Бренды</h2>
                             <ul class="filter-list">
-                                <li><label><input type="checkbox"> adidas Originals 7</label></li>
-                                <li><label><input type="checkbox"> ASICS 4</label></li>
-                                <li><label><input type="checkbox"> Carhartt WIP 1</label></li>
-                                <li><label><input type="checkbox"> Converse 25</label></li>
-                                <li><label><input type="checkbox"> Diadora 4</label></li>
-                                <li><label><input type="checkbox"> Hijack Sandals 6</label></li>
-                                <li><a href="#" class="more-brands">еще 12</a></li>
+                                <?php foreach ($allBrands as $brand): ?>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="brands[]" value="<?= htmlspecialchars($brand) ?>"
+                                                <?= in_array($brand, $selectedBrands) ? 'checked' : '' ?>>
+                                            <?= htmlspecialchars($brand) ?>
+                                        </label>
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
 
-                            <h2 class="filter-title">Пол</h2>
-                            <select class="filter-select">
+                            <!-- Категория -->
+                            <h2 class="filter-title">Категория</h2>
+                            <select class="filter-select" name="category">
                                 <option value="">Все</option>
-                                <option value="men">Мужская</option>
-                                <option value="women">Женская</option>
+                                <option value="Мужской" <?= $category === 'Мужской' ? 'selected' : '' ?>>Мужская</option>
+                                <option value="Женский" <?= $category === 'Женский' ? 'selected' : '' ?>>Женская</option>
+                                <option value="Бренд" <?= $category === 'Бренд' ? 'selected' : '' ?>>Бренд</option>
+                                <option value="Распродажа" <?= $category === 'Распродажа' ? 'selected' : '' ?>>Распродажа</option>
+                                <option value="Детская" <?= $category === 'Детская' ? 'selected' : '' ?>>Детская</option>
                             </select>
 
-                            <h2 class="filter-title">Цвета</h2>
-                            <select class="filter-select">
-                                <option value="">Любой</option>
-                                <option value="black">Черный</option>
-                                <option value="white">Белый</option>
-                                <option value="gray">Серый</option>
-                            </select>
-
+                            <!-- Цена -->
                             <h2 class="filter-title">Цена</h2>
                             <div class="price-filter">
-                                <input type="text" placeholder="От">
-                                <input type="text" placeholder="До">
+                                <div class="filter-form">
+                                    <input type="text" name="price_min" placeholder="От"
+                                           value="<?= isset($_GET['price_min']) ? htmlspecialchars($_GET['price_min']) : '' ?>">
+                                    <input type="text" name="price_max" placeholder="До"
+                                           value="<?= isset($_GET['price_max']) ? htmlspecialchars($_GET['price_max']) : '' ?>">
+                                </div>
                             </div>
 
+                            <!-- Скрытый параметр сортировки -->
+                            <input type="hidden" name="order" value="<?= htmlspecialchars($order) ?>">
+
+                            <!-- Размеры (пока статичны) -->
                             <h2 class="filter-title">Размер EUR</h2>
                             <div class="size-grid">
-                                <button>45-46</button> <button>30</button> <button>35</button> <button>35.5</button> <button>36</button>
-                                <button>36 2/3</button> <button>36.5</button> <button>37</button> <button>37.5</button> <button>38</button>
-                                <button>38.5</button> <button>39</button> <button>39.5</button> <button>40</button> <button>40 2/3</button>
-                                <button>40.5</button> <button>41</button> <button>41 1/3</button> <button>41-42</button> <button>41.5</button>
-                                <button>42</button> <button>42 1/3</button> <button>42 2/3</button> <button>42.5</button> <button>43</button>
-                                <button>43-44</button> <button>43 2/3</button> <button>43 1/3</button> <button>44</button> <button>44 2/3</button>
-                                <button>44.5</button> <button>45</button> <button>45.5</button> <button>46</button> <button>46.5</button>
-                                <button>47</button> <button>47.5</button> <button>48.5</button> <button>49.5</button> <button>50.5</button>
-                            </div>
-                        </aside>
-
-                        <!-- Каталог товаров -->
-                        <section class="catalog-products">
-                            <div class="product-grid">
-                                <?php foreach ($products as $product): ?>
-                                    <div class="product-card">
-                                        <?php if (!empty($product["label"])): ?>
-                                            <span class="label"><?= htmlspecialchars($product["label"]) ?></span>
-                                        <?php endif; ?>
-                                        <img src="<?= htmlspecialchars($product["image"]) ?>" alt="<?= htmlspecialchars($product["name"]) ?>">
-                                        <p class="price"><?= number_format($product["price"], 2, '.', ' ') ?> руб.</p>
-                                        <div class="product-name">
-                                            <p><?= htmlspecialchars($product["description"]) ?></p>
-                                        </div>
-                                        <div class="details-container">
-                                            <a href="/product/<?= urlencode($product['sku']) ?>" class="details-link">Подробнее</a>
-                                            <button class="cart-btn"><img src="./img/white-cart-icon.svg"></button>
-                                        </div>
-                                    </div>
+                                <?php 
+                                    $sizes = ['36','37','38','39','40','41','42','43','44','45'];
+                                    foreach ($sizes as $s): 
+                                ?>
+                                    <button 
+                                        type="button" 
+                                        class="size-btn <?= ($size === $s) ? 'active' : '' ?>" 
+                                        data-size="<?= $s ?>"
+                                    >
+                                        <?= $s ?>
+                                    </button>
                                 <?php endforeach; ?>
                             </div>
-                        </section>
-                    </div>
+                            <input type="hidden" name="size" id="sizeInput" value="<?= htmlspecialchars($size ?? '') ?>">
+
+                            <!-- Применить -->
+                            <button type="submit" class="filter-submit">Применить</button>
+                        </form>
+                    </aside>
+
+                    <!-- Каталог товаров -->
+                    <section class="catalog-products">
+                        <div class="product-grid">
+                            <?php foreach ($products as $product): ?>
+                                <div class="product-card">
+                                    <?php if (!empty($product["label"])): ?>
+                                        <span class="label"><?= htmlspecialchars($product["label"]) ?></span>
+                                    <?php endif; ?>
+                                    <img src="<?= htmlspecialchars($product["image"]) ?>" alt="<?= htmlspecialchars($product["name"]) ?>">
+                                    <p class="price"><?= number_format($product["price"], 2, '.', ' ') ?> руб.</p>
+                                    <div class="product-name">
+                                        <p><?= htmlspecialchars($product["description"]) ?></p>
+                                    </div>
+                                    <div class="details-container">
+                                        <a href="/product/<?= urlencode($product['sku']) ?>" class="details-link">Подробнее</a>
+                                        <button class="cart-btn" data-sku="<?= $product['sku'] ?>">
+                                            <img src="./img/white-cart-icon.svg" alt="Добавить в корзину">
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </section>
                 </div>
-            </section>
-        </main>
-        <?php include './templates/footer.php'; ?>
-    </div>
+            </div>
+        </section>
+    </main>
+    <?php include './templates/footer.php'; ?>
+</div>
+
+<script>
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const sizeInput = document.getElementById('sizeInput');
+
+            // Если кнопка уже активна — снять выбор
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                sizeInput.value = '';
+            } else {
+                // Убрать активность у всех, установить новую
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                sizeInput.value = btn.dataset.size;
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

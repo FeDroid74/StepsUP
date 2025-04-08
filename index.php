@@ -10,7 +10,6 @@ require './server/products.php';
     <title>StepsUP</title>
     <link rel="stylesheet" href="./src/css/style.css">
     <link rel="stylesheet" href="./src/css/main.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body>
     <div class="wrapper">
@@ -112,4 +111,5 @@ require './server/products.php';
         <?php include './templates/footer.php'; ?>
     </div>
 </body>
+<script src="../src/js/slider.js"></script>
 </html>

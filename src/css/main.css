@@ -56,7 +56,7 @@ h2 {
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: background-color 0.3s ease;
-    z-index: 1000;
+    z-index: 900;
 }
 
 .slider-dot.active {
@@ -189,10 +189,12 @@ h2 {
     font-size: 18px;
     font-weight: 600;
     margin: 10px 0;
+    padding: 0 5px;
 }
 
 .product-name {
     height: 50px;
+    padding: 0 5px;
 }
 
 .product-name p {

@@ -117,7 +117,7 @@ if ($tab === 'orders') {
                                         <td><img src="<?= $product['image'] ?>" alt="Товар" class="product-thumb"></td>
                                         <td><?= htmlspecialchars($product['name']) ?></td>
                                         <td><?= number_format($product['price'], 2, '.', ' ') ?> руб.</td>
-                                        <td><?= $product['category'] == 1 ? 'Женская' : 'Мужская' ?></td>
+                                        <td><?= $product['category']?></td>
                                         <td><?= $product['order_status'] ?></td>
                                         <td><?= $product['payment_status'] ?></td>
                                         <td>

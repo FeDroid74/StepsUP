@@ -36,8 +36,11 @@
 
         <label class="edit-label">Категория</label>
         <select class="edit-field" name="category" id="edit-category">
-          <option value="1">Мужская</option>
-          <option value="0">Женская</option>
+          <option value="Мужской">Мужская</option>
+          <option value="Женский">Женская</option>
+          <option value="Бренд">Бренд</option>
+          <option value="Распродажа">Распродажа</option>
+          <option value="Детская">Детская</option>
         </select>
 
         <label class="edit-label">Статус заказа</label>
