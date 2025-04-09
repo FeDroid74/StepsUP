@@ -24,7 +24,8 @@ if (!empty($_SESSION['cart'])) {
             'price' => $product['price'],
             'quantity' => $quantity,
             'sku' => $product['sku'],
-        ];
+            'size' => $product['size'],
+        ];        
     }
 }
 
@@ -99,7 +100,8 @@ if (!empty($_SESSION['user_id'])) {
                     <textarea name="comment" id="comment" rows="4" placeholder="Комментарий к заказу..."></textarea>
 
                     <label>
-                        <input type="checkbox" required> Нажимая «Заказать» вы даёте согласие на обработку данных
+                        <input type="checkbox" name="consent" required>
+                        Нажимая «Оформить заказ» вы даёте согласие на обработку данных
                     </label>
 
                     <button type="submit" class="order-btn">Оформить заказ</button>
@@ -123,8 +125,8 @@ if (!empty($_SESSION['user_id'])) {
                                 <p class="cart-price"><?= number_format($item['price'], 0, '', ' ') ?> ₽</p>
                                 <p><?= htmlspecialchars($item['name']) ?></p>
                                 <div class="cart-options">
-                                    <select>
-                                        <option selected>41 1/3 EUR</option>
+                                    <select disabled>
+                                        <option selected><?= htmlspecialchars($item['size']) ?> EUR</option>
                                     </select>
                                     <input type="number" value="<?= $item['quantity'] ?>" min="1" readonly>
                                 </div>

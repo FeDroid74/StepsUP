@@ -48,6 +48,13 @@
     border-radius: 4px;
 }
 
+.img-upload {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
 .upload-btn {
     background: #EF0D22;
     color: #FFF;
@@ -56,7 +63,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s ease;
-    font-weight: bold;
+    font-weight: 400;
     border: none;
 }
 

@@ -50,7 +50,6 @@ if (!$product) {
 
                         <div class="product-actions">
                             <button class="add-to-cart" type="button" data-sku="<?= $product['sku'] ?>">Добавить в корзину</button>
-                            <button class="add-to-wishlist" type="button" title="Добавить в желаемое">
                                 <img src="/img/liked-icon.svg" alt="Желаемое">
                             </button>
                         </div>

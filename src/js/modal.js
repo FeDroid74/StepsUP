@@ -83,9 +83,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (window.currentUser?.isLoggedIn) {
             if (window.currentUser.role === 1) {
-                window.location.href = "admin.php";
+                window.location.href = "/admin.php";
             } else {
-                window.location.href = "account.php";
+                window.location.href = "/account.php";
             }
         } else {
             if (loginModal) loginModal.style.display = "flex";

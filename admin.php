@@ -128,7 +128,10 @@ if ($tab === 'orders') {
                                                 data-description="<?= htmlspecialchars($product['description']) ?>"
                                                 data-price="<?= $product['price'] ?>"
                                                 data-stock="<?= $product['stock'] ?>"
+                                                data-brand="<?= htmlspecialchars($product['brand']) ?>"
                                                 data-category="<?= $product['category'] ?>"
+                                                data-gender="<?= $product['gender'] ?>"
+                                                data-size="<?= $product['size'] ?>"
                                                 data-image="<?= $product['image'] ?>"
                                                 data-orderstatus="<?= $product['order_status'] ?>"
                                                 data-paymentstatus="<?= $product['payment_status'] ?>">
@@ -155,4 +158,5 @@ if ($tab === 'orders') {
 </div>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/templates/product-modal.php'; ?>
 </body>
+</script>
 </html>
