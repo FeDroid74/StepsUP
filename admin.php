@@ -138,12 +138,14 @@ if ($tab === 'orders') {
                                                 ✎
                                             </button>
                                         </td>
-                                        <td>
-                                            <form action="./server/delete_product.php" method="POST" onsubmit="return confirm('Удалить товар?');">
-                                                <input type="hidden" name="id" value="<?= $product['id'] ?>">
-                                                <button type="submit" class="admin-delete">✖</button>
-                                            </form>
-                                        </td>
+                                        <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                                                <td>
+                                                    <button 
+                                                        class="admin-delete" 
+                                                        data-id="<?= $product['id'] ?>"
+                                                        title="Удалить товар"
+                                                    >✖</button>
+                                                </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
@@ -158,5 +160,34 @@ if ($tab === 'orders') {
 </div>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/templates/product-modal.php'; ?>
 </body>
+<script>
+document.querySelectorAll('.admin-delete').forEach(button => {
+    button.addEventListener('click', () => {
+        const productId = button.dataset.id;
+
+        if (confirm('Удалить этот товар?')) {
+            fetch('./server/delete_product.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `id=${encodeURIComponent(productId)}`
+            })
+            .then(response => response.text())
+            .then(result => {
+                if (result.trim() === 'success') {
+                    // Удаляем строку из таблицы
+                    const row = button.closest('tr');
+                    if (row) row.remove();
+                } else {
+                    alert('Ошибка при удалении товара: ' + result);
+                }
+            })
+            .catch(err => {
+                alert('Серверная ошибка: ' + err.message);
+            });
+        }
+    });
+});
 </script>
 </html>
