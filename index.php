@@ -31,15 +31,15 @@ require './server/products.php';
                     <div class="sneakers-categories">
                         <div class="category-item">
                             <div class="image-wrapper"><img src="./img/mens-sneakers.jpg" alt="Мужские кроссовки"></div>
-                            <div class="overlay">Мужские кроссовки</div>
+                            <div class="overlay"><a href="/catalog.php?gender=1">Мужские кроссовки</a></div>
                         </div>
                         <div class="category-item">
                             <div class="image-wrapper"><img src="./img/brand-collections.jpg" alt="Брендовые коллекции"></div>
-                            <div class="overlay">Брендовые коллекции</div>
+                            <div class="overlay"><a href="/catalog.php?category=Бренд">Брендовые коллекции</a></div>
                         </div>
                         <div class="category-item">
                             <div class="image-wrapper"><img src="./img/sale.jpg" alt="Распродажа"></div>
-                            <div class="overlay">Распродажа</div>
+                            <div class="overlay"><a href="/catalog.php?category=Распродажа">Распродажа</a></div>
                         </div>
                     </div>
                 </div>

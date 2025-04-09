@@ -116,11 +116,15 @@ h2 {
     position: absolute;
     bottom: 10px;
     left: 10px;
-    color: #FFF;
     padding: 8px 12px;
     font-size: 16px;
     font-weight: bold;
     border-radius: 5px;
+}
+
+.overlay a {
+    text-decoration: none;
+    color: #FFF;
 }
 
 .shoes-section {
