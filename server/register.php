@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -17,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    // Проверка на уникальность email
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
 
@@ -25,9 +27,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    // Добавление нового пользователя
     $stmt = $pdo->prepare("INSERT INTO users (full_name, email, phone, password) VALUES (?, ?, ?, ?)");
     if ($stmt->execute([$full_name, $email, $phone, $password])) {
-        echo "Регистрация прошла успешно";
+        $userId = $pdo->lastInsertId();
+
+        // Получаем роль и сохраняем сессию
+        $stmt = $pdo->prepare("SELECT id, role FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['role'] = $user['role'];
+
+        // Возвращаем путь для редиректа
+        if ($user['role'] == 1) {
+            echo "/admin.php";
+        } else {
+            echo "/account.php";
+        }
     } else {
         echo "Ошибка при регистрации.";
     }

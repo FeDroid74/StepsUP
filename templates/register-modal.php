@@ -8,10 +8,10 @@
             <input id="phone" type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
             <input type="password" name="password" placeholder="Пароль" required>
             <p class="modal-text">
-                Нажимая кнопку «Продолжить» или совершая регистрацию через социальную сеть, вы подтверждаете свое согласие 
+                Нажимая кнопку «Зарегистрироваться» или совершая регистрацию через социальную сеть, вы подтверждаете свое согласие 
                 с условиями предоставляемых услуг и договором «Оферта программы лояльности»
             </p>
-            <button type="button" id="registerButton" class="modal-button">Продолжить</button>
+            <button type="button" id="registerButton" class="modal-button">Зарегистрироваться</button>
         </form>
         <p class="modal-footer">
             Уже зарегистрированы? <a href="#" class="switch-to-login">Войдите</a>

@@ -2,7 +2,7 @@
 session_start();
 
 // Проверка авторизации и роли
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_role"] != 0) {
+if (!isset($_SESSION["user_id"]) || $_SESSION["role"] != 0) {
     header("Location: index.php");
     exit;
 }
@@ -20,7 +20,9 @@ $stmt = $pdo->prepare("
     GROUP BY o.id
     ORDER BY o.created_at DESC
 ");
-$stmt->execute([$_SESSION["user_id"]]);
+$stmt = $pdo->prepare("SELECT full_name FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$currentUser = $stmt->fetch(PDO::FETCH_ASSOC);
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Переключение вкладок
@@ -42,7 +44,7 @@ $tab = $_GET['tab'] ?? 'orders';
             <section class="user-account">
                 <div class="account-container">
                     <div class="account-sidebar">
-                        <p class="account-name"><?= htmlspecialchars($_SESSION["user_name"]) ?></p>
+                        <p class="account-name"><?= htmlspecialchars($currentUser['full_name'] ?? 'Пользователь') ?></p>
                         <ul class="account-menu">
                             <li class="<?= $tab !== 'profile' ? 'active' : '' ?>">
                                 <a href="?tab=orders">

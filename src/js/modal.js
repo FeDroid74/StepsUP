@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (registerForm) {
             const phoneField = registerForm.querySelector("input[name='phone']");
             if (phoneField) {
-                phoneField.value = phoneField.value.replace(/\D+/g, "");
             }
 
             const formData = new FormData(registerForm);
@@ -44,10 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(response => response.text())
             .then(data => {
-                if (data.trim() === "success") {
-                    alert("Регистрация прошла успешно!");
-                    if (regModal) regModal.style.display = "none";
-                    if (loginModal) loginModal.style.display = "flex";
+                const redirectPath = data.trim();
+            
+                if (redirectPath.endsWith(".php")) {
+                    window.location.href = redirectPath;
                 } else {
                     alert(data);
                 }
